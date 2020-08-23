@@ -787,7 +787,7 @@ class Minimizer:
         best_vals = self.result.params.valuesdict()
 
         try:
-            Hfun = ndt.Hessian(self.penalty, step=1.0e-3) # KCG
+            Hfun = ndt.Hessian(self.penalty, step=5.0e-3) # KCG
             hessian_ndt = Hfun(fvars)
             cov_x = inv(hessian_ndt) * 2.0
         except (LinAlgError, ValueError):
