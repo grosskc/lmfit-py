@@ -787,7 +787,7 @@ class Minimizer:
         best_vals = self.result.params.valuesdict()
 
         try:
-            Hfun = ndt.Hessian(self.penalty, step=1.e-4)
+            Hfun = ndt.Hessian(self.penalty, step=5.0e-4) # KCG
             hessian_ndt = Hfun(fvars)
             cov_x = inv(hessian_ndt) * 2.0
         except (LinAlgError, ValueError):
@@ -1042,8 +1042,8 @@ class Minimizer:
         result._calculate_statistics()
 
         # calculate the cov_x and estimate uncertanties/correlations
-        if (not result.aborted and self.calc_covar and HAS_NUMDIFFTOOLS and
-                len(result.residual) > len(result.var_names)):
+        if (not result.aborted and self.calc_covar and HAS_NUMDIFFTOOLS): # and
+        #         len(result.residual) > len(result.var_names)):
             _covar_ndt = self._calculate_covariance_matrix(result.x)
             if _covar_ndt is not None:
                 result.covar = self._int2ext_cov_x(_covar_ndt, result.x)
